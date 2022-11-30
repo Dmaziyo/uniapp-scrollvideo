@@ -1,0 +1,49 @@
+	.container{
+		.header{
+			z-index: 1;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			.search{
+				flex-direction: row;
+				margin-top: 40rpx;
+				color: #fff;
+				margin-bottom: 30rpx;
+				font-size: 25rpx;
+				.search-btn{
+					font-size: 35rpx;
+					font-size: 45rpx;
+					margin-left: 45rpx;
+					margin-right: 45rpx;
+				}
+			}
+			.nav{
+				flex-direction: row;
+				
+				.title{
+					text-align: center;
+					margin-top: 15rpx;
+					color: #fff;
+					font-size: 40rpx;
+					white-space:nowrap;
+					flex:1;
+				}
+				.title.active{
+					font-size: 55rpx;
+					.swiper-tab-line{
+						    width: 30%;
+						    height: 3px;
+						    background-color: #fff;
+						    margin: 10px auto;
+					  }
+				}
+			}
+		}
+
+		.swiper-item{
+			width: 50rpx;
+			height: 50rpx;
+			background-color: aqua;
+		}
+	}

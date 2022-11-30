@@ -1,0 +1,112 @@
+<template>
+	<view class="container" :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px; background-color: #000000;'" >
+		<view class="header">
+			<view class="search">
+				<text class="iconfont  icon-sousuo search-btn"></text>
+				<text class="iconfont  icon-zhibo ">直播</text>
+			</view>
+			<view class="nav">
+				<!-- :class="current== 0 ? 'skyblue' : '' " @tap="onnav(0)" -->	
+				<view v-for="(item,index) in tab_titles" :class="['title',{active:item.selected}]">
+					<text @click="changeContent(index)" :style="{color:item.sepecial?'yellow':'white'}">{{item.text}}</text>
+					<view class="swiper-tab-line"></view>
+				</view>
+			</view>
+		</view>
+		<swiper :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px; background-color: #000000;'" @change="toggleContent" :current="current"  :indicator-dots="false" :autoplay="false" :interval="1500" :duration="500" >
+			<swiper-item v-for="(item,index) in contents">
+					<video-scroll v-show="index===current" :idx="index+'-v'" :req_url="item.req_url" :paused="index!==current"></video-scroll>
+			</swiper-item>
+			
+		</swiper>
+	</view>
+
+</template>
+<script>
+	import videoScroll from '@/components/video-scroll/video-scroll.nvue'
+	export default {
+		components:{
+			videoScroll
+		},
+		data(){
+			return {
+				current:3,
+				windowWidth: 0,
+				windowHeight: 0,
+				tab_titles:[
+					{
+						text:'人才',
+						selected:false,
+						sepecial:false
+					},
+					{
+						text:'雇主',
+						selected:false,
+						sepecial:false
+					},
+					{
+						text:'合伙人',
+						selected:false,
+						sepecial:true
+					},
+					{
+						text:'推荐',
+						selected:true,
+						sepecial:false
+					},
+					{
+						text:'关注',
+						selected:false,
+						sepecial:false
+					}
+				],
+				contents:[
+					{
+						req_url:"https://bdb24c6d-8c19-4f80-8e7e-c9c9f037f131.bspapp.com/video"
+					},
+					{
+						req_url:"https://bdb24c6d-8c19-4f80-8e7e-c9c9f037f131.bspapp.com/video"
+					},
+					{
+						req_url:"https://bdb24c6d-8c19-4f80-8e7e-c9c9f037f131.bspapp.com/video"
+					},
+					{
+						req_url:"https://bdb24c6d-8c19-4f80-8e7e-c9c9f037f131.bspapp.com/video"
+					},
+					{
+						req_url:"https://bdb24c6d-8c19-4f80-8e7e-c9c9f037f131.bspapp.com/video"
+					}
+				]
+			}
+		},
+		methods:{
+			toggleContent(e){
+				this.changeContent(+e.detail.current);
+			},
+			changeContent(newIndex){
+				this.current = +newIndex
+				let tab_titles =  this.tab_titles.slice()
+				tab_titles.forEach((item,index)=>{
+					if(index===this.current){
+						item.selected = true
+					}
+					else{
+						item.selected = false
+					}
+				})
+			}
+		},
+		onLoad() {
+			var model = uni.getSystemInfoSync().model
+			if(this.platform == 'ios' && (model !== 'iPhone6' || model !== 'iPhone6s' || model !== 'iPhone7' || model !== 'iPhone8')){
+				this.deleteHeight = 0//有 tabbar的 修改这里可以改变视频高度
+			}
+			this.windowWidth = uni.getSystemInfoSync().windowWidth
+			this.windowHeight = uni.getSystemInfoSync().windowHeight
+		},
+
+	}
+</script>
+<style scoped  lang="scss">	
+@import "./index.scss";
+</style>
